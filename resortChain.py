@@ -2,6 +2,7 @@ import subprocess as sp
 import pymysql
 import pymysql.cursors
 from tabulate import tabulate
+from datetime import datetime
 
 
 def addEmployee():
@@ -288,6 +289,41 @@ def addRecreation():
         print("Supervisor does not work in this hotel")
     return
 
+def getFinancialReport():
+    global cur
+    # query = "MONTH"
+    date = datetime.today().strftime('%Y-%m-%d')
+    month = date[5] + date[6]
+    if month == "01":
+        m = "January"
+    elif month == "02":
+        m="February"
+    elif month == "03":
+        m="March"
+    elif month=="04":
+        m="April"
+    elif month=="05":
+        m="May"
+    elif month=="06":
+        m="June"
+    elif month=="07":
+        m="July"
+    elif month=="08":
+        m="August"
+    elif month=="09":
+        m="September"
+    elif month=="10":
+        m="October"
+    elif month=="11":
+        m="November"
+    elif month=="12":
+        m="December"
+    
+    query = "SELECT * FROM FINANCE F WHERE F.MONTH=%s ORDER BY HOTEL_ID ASC;"
+    no_of_rows = cur.execute(query, m)
+    rows = cur.fetchall()
+    viewTable(rows)
+    con.commit()
 
 def viewTable(rows):
 
@@ -323,6 +359,7 @@ def viewOptions():
     print("16. MEMBER GUEST WHO?")
     print("17. NON MEMBER GUEST WHO?")
     print("18. LATEST MEMBERS")
+    print("19. FINANCIAL REPORT")
     print("\n\n")
     n = int(input())
 
@@ -369,6 +406,9 @@ def viewOptions():
         print("Enter the YYYY-MM from which you want to see the registered members")
         m = input() + "-01"
         query = "SELECT * FROM MEMBERS WHERE DATE(DATE_OF_REG) >= %s;" % (m)
+    elif n==19:
+        getFinancialReport()
+        return
 
     no_of_rows = cur.execute(query)
     rows = cur.fetchall()
@@ -461,7 +501,7 @@ def deleteOptions():
         query = "DELETE FROM FINANCE F WHERE F.HOTEL_ID='%s' AND F.MONTH='%s';" %(x1,x2)
     elif n == 7:
         x=input("Enter Employee ID: ")
-        query = "DELETE FROM EMPLOYEE WHERE EMPLOYEE_ID=%d;" % (x)
+        query = "DELETE FROM EMPLOYEE WHERE EMPLOYEE_ID='%s';" % (x)
     elif n == 8:
         x1=input("Enter Employee ID: ")
         x2=input("Enter Address: ")
@@ -509,16 +549,17 @@ while(1):
             cur = con.cursor()
             while(1):
                 # tmp = sp.call('clear', shell=True)
-                # switch case
-                # addEmployee()
-                # addMember()
-                # addNonMemberGuest()
-                # addServiceProvider()
-                # addFinance()
-                # addRoom()
-                # addRecreation()
-                # printViews()
-                deleteOptions()
+                print("CHOOSE AN OPTION\n")
+                print("1.View Options")
+                print("2.Addition Options")
+                print("3.Deletion Options")
+                inp=int(input("\nCHOICE ? "))
+                if(inp==1):
+                    viewOptions()
+                elif(inp==2):
+                    addOptions()
+                elif(inp==3):
+                    deleteOptions()
 
     except Exception as e:
         print(e)
