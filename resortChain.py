@@ -1,6 +1,7 @@
 import subprocess as sp
 import pymysql
 import pymysql.cursors
+from tabulate import tabulate
 
 
 def addEmployee():
@@ -253,12 +254,14 @@ def addHotel():
     cur.execute(query)
     con.commit()
 
+    # shift that employee to that hotel
     query = "UPDATE EMPLOYEE SET HOTEL_ID='%s' WHERE EMPLOYEE_ID=%s" % (
         row["Hotel_ID"], row["Manager_ID"])
     cur.execute(query)
     con.commit()
 
     return
+
 
 def addRecreation():
     global cur
@@ -275,14 +278,207 @@ def addRecreation():
     x = cur.fetchone()
     con.commit()
 
+    # Supervisor must exist in that hotel
     if x["HOTEL_ID"] == row["Hotel_ID"]:
         query = "INSERT INTO RECREATION(Hotel_ID,Service_Provider,Supervisor_ID,Profit) VALUES('%s', '%s', '%s', %d)" % (
             row["Hotel_ID"], row["Service_Provider"], row["Supervisor_ID"], row["Profit"])
         cur.execute(query)
         con.commit()
-    else :
+    else:
         print("Supervisor does not work in this hotel")
     return
+
+
+def viewTable(rows):
+
+    a = []
+    a.append(list(rows[0].keys()))
+    for row in rows:
+        b = []
+        for k in row.keys():
+            b.append(row[k])
+        a.append(b)
+    print(tabulate(a, tablefmt="psql", headers="firstrow"))
+    print()
+    return
+
+
+def viewOptions():
+    print("Choose a VIEW option\n\n")
+    print("1.  DESTINATION")
+    print("2.  MEMBERS")
+    print("3.  MEMBER_PACKAGE")
+    print("4.  MEMBER_ADDRESS")
+    print("5.  MEMBER_PHONE")
+    print("6.  FINANCE")
+    print("7.  EMPLOYEE")
+    print("8.  EMPLOYEE_ADDRESS")
+    print("9.  EMPLOYEE_PHONE")
+    print("10. MEMBER_GUESTS")
+    print("11. NON_MEMBER_GUESTS")
+    print("12. RECREATION")
+    print("13. PROVIDERS_SERVICES")
+    print("14. HOTEL_I")
+    print("15. FACILITIES_AVAILED")
+    print("16. MEMBER GUEST WHO?")
+    print("17. NON MEMBER GUEST WHO?")
+    print("18. LATEST MEMBERS")
+    print("\n\n")
+    n = int(input())
+
+    if n == 1:
+        query = "SELECT * FROM DESTINATION;"
+        print("I am here")
+    elif n == 2:
+        query = "SELECT * FROM MEMBERS;"
+    elif n == 3:
+        query = "SELECT * FROM MEMBER_PACKAGE;"
+    elif n == 4:
+        query = "SELECT * FROM MEMBER_ADDRESS;"
+    elif n == 5:
+        query = "SELECT * FROM MEMBER_PHONE;"
+    elif n == 6:
+        query = "SELECT * FROM FINANCE;"
+    elif n == 7:
+        query = "SELECT * FROM EMPLOYEE;"
+    elif n == 8:
+        query = "SELECT * FROM EMPLOYEE_ADDRESS;"
+    elif n == 9:
+        query = "SELECT * FROM EMPLOYEE_PHONE;"
+    elif n == 10:
+        query = "SELECT * FROM MEMBER_GUESTS;"
+    elif n == 11:
+        query = "SELECT * FROM NON_MEMBER_GUESTS;"
+    elif n == 12:
+        query = "SELECT * FROM RECREATION;"
+    elif n == 13:
+        query = "SELECT * FROM PROVIDERS_SERVICES;"
+    elif n == 14:
+        query = "SELECT * FROM HOTEL_I;"
+    elif n == 15:
+        query = "SELECT * FROM FACILITIES_AVAILED"
+    elif n == 16:
+        x = input("Hotel ID: ")
+        query = "SELECT M2.FIRST_NAME, M2.LAST_NAME, M.CHECK_IN_DATE, M.CHECK_OUT_DATE FROM MEMBER_GUESTS M, MEMBERS M2 WHERE M2.MEMBER_ID=M.MEMBER_ID AND M.HOTEL_ID=%s;" % (
+            x)
+    elif n==17:
+        x = input("Hotel ID: ")
+        query = "SELECT FIRST_NAME, LAST_NAME, CHECK_IN_DATE, CHECK_OUT_DATE FROM NON_MEMBER_GUESTS M WHERE M.HOTEL_ID=%s;" % (
+            x)
+    elif n == 18:
+        print("Enter the YYYY-MM from which you want to see the registered members")
+        m = input() + "-01"
+        query = "SELECT * FROM MEMBERS WHERE DATE(DATE_OF_REG) >= %s;" % (m)
+
+    no_of_rows = cur.execute(query)
+    rows = cur.fetchall()
+    if rows == ():
+        print("\n-----------------\nEMPTY HOTEL\n-----------------\n")
+    else:
+        viewTable(rows)
+    con.commit()
+
+
+def addOptions():
+
+    print("Choose an ADDITION option\n\n")
+    print("1. DESTINATION")
+    print("2. MEMBERS")
+    print("3. MEMBER_PACKAGE")
+    print("4. FINANCE")
+    print("5. EMPLOYEE")
+    print("6. MEMBER_GUESTS")
+    print("7. NON_MEMBER_GUESTS")
+    print("8. RECREATION")
+    print("9. PROVIDERS_SERVICES")
+    print("10. ROOMS")
+    print("\n\n")
+    n = int(input())
+
+    if n == 1:
+        addHotel()
+    elif n == 2:
+        addMember()
+    elif n == 3:
+        addPackage()
+    elif n == 4:
+        addFinance()
+    elif n == 5:
+        addEmployee()
+    elif n == 6:
+        addMemberGuest()
+    elif n == 7:
+        addNonMemberGuest()
+    elif n == 8:
+        addRecreation()
+    elif n == 9:
+        addServiceProvider()
+    elif n == 10:
+        addRoom()
+
+
+def deleteOptions():
+    print("Choose a DELETION option\n\n")
+    print("1.  DESTINATION")
+    print("2.  MEMBERS")
+    print("3.  MEMBER_PACKAGE")
+    print("4.  MEMBER_ADDRESS")
+    print("5.  MEMBER_PHONE")
+    print("6.  FINANCE")
+    print("7.  EMPLOYEE")
+    print("8.  EMPLOYEE_ADDRESS")
+    print("9.  EMPLOYEE_PHONE")
+    # print("10. MEMBER_GUESTS")
+    # print("11. NON_MEMBER_GUESTS")
+    print("10. RECREATION")
+    print("11. PROVIDERS_SERVICES")
+    # print("12. HOTEL_I")
+    # print("12. FACILITIES AVAILED")
+    print("\n\n")
+    n = int(input())
+
+    if n == 1:
+        x=input("Enter Hotel ID: ")
+        query = "DELETE FROM DESTINATION WHERE HOTEL_ID='%s';" % (x)
+    elif n == 2:
+        x=input("Enter Member ID: ")
+        query = "DELETE FROM MEMBERS WHERE MEMBER_ID='%s';" % (x)
+    elif n == 3:
+        x1=input("Enter Member ID: ")
+        x2=input("Enter Member Package: ")
+        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PACKAGE='%s';" %(x1,x2)
+    elif n == 4:
+        x1=input("Enter Member ID: ")
+        x2=input("Enter Member Address: ")
+        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.ADDRESS='%s';" %(x1,x2)
+    elif n == 5:
+        x1=input("Enter Member ID: ")
+        x2=input("Enter Member Phone: ")
+        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PH_NO='%s';" %(x1,x2)
+    elif n == 6:
+        x1=input("Enter Hotel ID: ")
+        x2=input("Enter Month: ")
+        query = "DELETE FROM FINANCE F WHERE F.HOTEL_ID='%s' AND F.MONTH='%s';" %(x1,x2)
+    elif n == 7:
+        x=input("Enter Employee ID: ")
+        query = "DELETE FROM EMPLOYEE WHERE EMPLOYEE_ID=%d;" % (x)
+    elif n == 8:
+        x1=input("Enter Employee ID: ")
+        x2=input("Enter Address: ")
+        query = "DELETE FROM EMPLOYEE E WHERE E.EMPLOYEE_ID='%s' AND E.ADDRESS='%s';" %(x1,x2)
+    elif n == 9:
+        x1=input("Enter Hotel ID: ")
+        x2=input("Enter Phone: ")
+        query = "DELETE FROM EMPLOYEE E WHERE E.HOTEL_ID='%s' AND E.Ph_No='%s';" %(x1,x2)
+    elif n == 10:
+        x1=input("Enter Hotel ID: ")
+        x2=input("Enter Service_Provider: ")
+        query = "DELETE FROM RECREATION R WHERE R.HOTEL_ID='%s' AND R.SERVICE_PROVIDER='%s';" %(x1,x2)
+    elif n == 11:
+        X=input("Enter Service Provider: ")
+        query= "DELETE FROM RECREATION R WHERE R.SERVICE_PROVIER='%s';" % (x)
+    cur.execute(query)
+    con.commit()
 
 
 optionFunctionMapping = {
@@ -303,35 +499,29 @@ while(1):
     # username = input("Username: ")
     # password = input("Password: ")
 
-    # try:
-    con = pymysql.connect(host='localhost',
+    try:
+        con = pymysql.connect(host='localhost',
                           user='mallika',
                           password='Aaaa1234%',
                           db='RESORT',
                           cursorclass=pymysql.cursors.DictCursor)
-    with con:
-        cur = con.cursor()
-        # while(1):
-        #     tmp = sp.call('clear', shell=True)
-        #     print("1. Hire a new employee")
-        #     print("2. mem guest")
-        #     print("3. Promote an employee")
-        #     print("4. Reward a department")
-        #     c = int(input("Enter choice> "))
-        #     tmp = sp.call('clear', shell=True)
-        #     if c==9:
-        #         break
-        #     else:
-        #         send(optionFunctionMapping[c]())
-        # addEmployee()
-        # addMember()
-        # addNonMemberGuest()
-        # addServiceProvider()
-        # addFinance()
-        # addRoom()
-        addRecreation()
+        with con:
+            cur = con.cursor()
+            while(1):
+                # tmp = sp.call('clear', shell=True)
+                # switch case
+                # addEmployee()
+                # addMember()
+                # addNonMemberGuest()
+                # addServiceProvider()
+                # addFinance()
+                # addRoom()
+                # addRecreation()
+                # printViews()
+                deleteOptions()
 
-    # except:
-    #     #tmp = sp.call('clear', shell=True)
-    #     print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
-    #     tmp = input("Enter any key to CONTINUE>")
+    except Exception as e:
+        print(e)
+        #tmp = sp.call('clear', shell=True)
+        print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
+        tmp = input("Enter any key to CONTINUE>")
