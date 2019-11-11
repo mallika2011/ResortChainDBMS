@@ -260,6 +260,30 @@ def addHotel():
 
     return
 
+def addRecreation():
+    global cur
+    row = {}
+    print("Enter the new recreations's details: ")
+    row["Hotel_ID"] = input("Hotel ID: ")
+    row["Service_Provider"] = input("Service Provider: ")
+    row["Supervisor_ID"] = input("Supervisor ID: ")
+    row["Profit"] = int(input("Profit Received: "))
+
+    query = "SELECT HOTEL_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=%s" % (
+        row["Supervisor_ID"])
+    cur.execute(query)
+    x = cur.fetchone()
+    con.commit()
+
+    if x["HOTEL_ID"] == row["Hotel_ID"]:
+        query = "INSERT INTO RECREATION(Hotel_ID,Service_Provider,Supervisor_ID,Profit) VALUES('%s', '%s', '%s', %d)" % (
+            row["Hotel_ID"], row["Service_Provider"], row["Supervisor_ID"], row["Profit"])
+        cur.execute(query)
+        con.commit()
+    else :
+        print("Supervisor does not work in this hotel")
+    return
+
 
 optionFunctionMapping = {
     1: addEmployee,
@@ -270,7 +294,8 @@ optionFunctionMapping = {
     6: addFinance,
     7: addServiceProvider,
     8: addRoom,
-    9: addHotel
+    9: addHotel,
+    10: addRecreation
 }
 
 while(1):
@@ -303,7 +328,8 @@ while(1):
         # addNonMemberGuest()
         # addServiceProvider()
         # addFinance()
-        addRoom()
+        # addRoom()
+        addRecreation()
 
     # except:
     #     #tmp = sp.call('clear', shell=True)
