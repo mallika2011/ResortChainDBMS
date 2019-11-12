@@ -838,17 +838,17 @@ def deleteOptions():
     elif n == '3':
         x1 = input("Enter Member ID: ")
         x2 = input("Enter Member Package: ")
-        query = "DELETE FROM MEMBER_PACKAGE M WHERE M.MEMBER_ID='%s' AND M.PACKAGE='%s';" % (
+        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PACKAGE='%s';" % (
             x1, x2)
     elif n == '4':
         x1 = input("Enter Member ID: ")
         x2 = input("Enter Member Address: ")
-        query = "DELETE FROM MEMBER_ADDRESS M WHERE M.MEMBER_ID='%s' AND M.ADDRESS='%s';" % (
+        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.ADDRESS='%s';" % (
             x1, x2)
     elif n == '5':
         x1 = input("Enter Member ID: ")
         x2 = input("Enter Member Phone: ")
-        query = "DELETE FROM MEMBER_PHONE M WHERE M.MEMBER_ID='%s' AND M.PH_NO='%s';" % (
+        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PH_NO='%s';" % (
             x1, x2)
     elif n == '6':
         x1 = input("Enter Hotel ID: ")
@@ -861,12 +861,12 @@ def deleteOptions():
     elif n == '8':
         x1 = input("Enter Employee ID: ")
         x2 = input("Enter Address: ")
-        query = "DELETE FROM EMPLOYEE_ADDRESS E WHERE E.EMPLOYEE_ID='%s' AND E.ADDRESS='%s';" % (
+        query = "DELETE FROM EMPLOYEE E WHERE E.EMPLOYEE_ID='%s' AND E.ADDRESS='%s';" % (
             x1, x2)
     elif n == '9':
         x1 = input("Enter Hotel ID: ")
         x2 = input("Enter Phone: ")
-        query = "DELETE FROM EMPLOYEE_PHONE E WHERE E.HOTEL_ID='%s' AND E.Ph_No='%s';" % (
+        query = "DELETE FROM EMPLOYEE E WHERE E.HOTEL_ID='%s' AND E.Ph_No='%s';" % (
             x1, x2)
     elif n == '10':
         x1 = input("Enter Hotel ID: ")
