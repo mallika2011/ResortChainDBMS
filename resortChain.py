@@ -923,10 +923,10 @@ def refreshDatabase():
 
 while(1):
     tmp = sp.call('clear', shell=True)
-    # username = input("Username: ")
-    # password = input("Password: ")
-    username="tanvi"
-    password="password"
+    username = input("Username: ")
+    password = input("Password: ")
+    # username="tanvi"
+    # password="password"
 
     try:
         con = pymysql.connect(host='localhost',
@@ -936,7 +936,7 @@ while(1):
                               cursorclass=pymysql.cursors.DictCursor)
     except Exception as e:
         print(e)
-        #tmp = sp.call('clear', shell=True)
+        tmp = sp.call('clear', shell=True)
         print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
         tmp = input("Enter any key to CONTINUE>")
         continue
@@ -945,7 +945,7 @@ while(1):
         cur = con.cursor()
         exitflag = 0
         while(1):
-            # tmp = sp.call('clear', shell=True)
+            tmp = sp.call('clear', shell=True)
             refreshDatabase()
             print("CHOOSE AN OPTION\n")
             print("1.View Options")
@@ -966,6 +966,9 @@ while(1):
                     exitflag = 1
                     print("Bye")
                     break
+            
+            print("Press enter to continue ... ")
+            x=input()
 
     if exitflag == 1:
         break
