@@ -352,6 +352,17 @@ def addHotel():
     row["Location"] = input("Location: ")
     row["Manager_ID"] = input("Manager_ID: ")
 
+# shift that employee to that hotel
+    try:
+        query = "UPDATE EMPLOYEE SET HOTEL_ID='%s' WHERE EMPLOYEE_ID=%s" % (
+            row["Hotel_ID"], row["Manager_ID"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
+        
     try:
         query = "INSERT INTO DESTINATION(Hotel_ID,Hotel_Name,Location,Manager_ID) VALUES('%s', '%s', '%s', '%s')" % (
             row["Hotel_ID"], row["Hotel_Name"], row["Location"], row["Manager_ID"])
@@ -362,16 +373,6 @@ def addHotel():
         print("Please try with different data")
         return
 
-    # shift that employee to that hotel
-    try:
-        query = "UPDATE EMPLOYEE SET HOTEL_ID='%s' WHERE EMPLOYEE_ID=%s" % (
-            row["Hotel_ID"], row["Manager_ID"])
-        cur.execute(query)
-        con.commit()
-    except Exception as e:
-        print(e)
-        print("Please try with different data")
-        return
 
     return
 
@@ -497,6 +498,31 @@ def getFinancialReport():
     rows = cur.fetchall()
     viewTable(rows)
     con.commit()
+
+
+def changeStay():
+    global cur
+    row = {}
+    print("Enter details:")
+    row["Hotel_ID"] = input("Hotel ID: ")
+    row["Room_Number"] = input("Room Number: ")
+    print("Enter new Checkout Date(YYYY-MM-DD): ")
+    newday = input()
+    args = (newday.split("-"))
+    pydy = datetime.datetime(int(args[0]), int(args[1]), int(args[2]))
+
+    if datetime.datetime.now() < pydy:
+        print("Can't enter a date that has already passed")
+    else:
+        try:
+            query = "UPDATE HOTEL_I SET Check_Out_Date='%s' WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
+                newday, row["Hotel_ID"], row["Room_Number"])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
 
 
 def viewTable(rows):
@@ -730,11 +756,12 @@ def updateOptions():
         query = "UPDATE EMPLOYEE SET SALARY = %d WHERE Employee_ID = %s;" % (
             salary, id)
     elif n == 2:
-        print("Tanvi")
+        changeStay()
 
     cur.execute(query)
     con.commit()
     return
+
 
 def refreshDatabase():
     global cur
