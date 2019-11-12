@@ -822,8 +822,8 @@ def deleteOptions():
         query = "DELETE FROM RECREATION R WHERE R.HOTEL_ID='%s' AND R.SERVICE_PROVIDER='%s';" % (
             x1, x2)
     elif n == '11':
-        x = input("Enter Service Provider: ")
-        query = "DELETE FROM RECREATION R WHERE R.SERVICE_PROVIER='%s';" % (x)
+        x= input("Enter Service Provider: ")
+        query = "DELETE FROM PROVIDERS_SERVICES WHERE SERVICE_PROVIDER='%s';" % (x)
 
     try:
         cur.execute(query)
@@ -921,8 +921,10 @@ def refreshDatabase():
 
 while(1):
     tmp = sp.call('clear', shell=True)
-    username = input("Username: ")
-    password = input("Password: ")
+    # username = input("Username: ")
+    # password = input("Password: ")
+    username="mallika"
+    password="Aaaa1234%"
 
     try:
         con = pymysql.connect(host='localhost',
