@@ -29,22 +29,37 @@ def addEmployee():
     for i in range(m):
         row_phone.append(input("Phone Number : "))
 
-    query = "INSERT INTO EMPLOYEE(Employee_ID, First_Name, Last_Name, Salary, DOB, Hotel_ID, Email_ID) VALUES('%s', '%s', '%s', '%d', '%s', '%s', '%s')" % (
-        row["Employee_ID"], row["First_Name"], row["Last_Name"], row["Salary"], row["DOB"], row["Hotel_ID"], row["Email_ID"])
-    cur.execute(query)
-    con.commit()
+    try:
+        query = "INSERT INTO EMPLOYEE(Employee_ID, First_Name, Last_Name, Salary, DOB, Hotel_ID, Email_ID) VALUES('%s', '%s', '%s', '%d', '%s', '%s', '%s')" % (
+            row["Employee_ID"], row["First_Name"], row["Last_Name"], row["Salary"], row["DOB"], row["Hotel_ID"], row["Email_ID"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
 
     for i in range(n):
-        query = "INSERT INTO EMPLOYEE_ADDRESS(Employee_ID, Address) VALUES('%s', '%s')" % (
-            row["Employee_ID"], row_add[i])
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "INSERT INTO EMPLOYEE_ADDRESS(Employee_ID, Address) VALUES('%s', '%s')" % (
+                row["Employee_ID"], row_add[i])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
 
     for i in range(m):
-        query = "INSERT INTO EMPLOYEE_PHONE(Employee_ID, Ph_No) VALUES('%s', '%s')" % (
-            row["Employee_ID"], row_phone[i])
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "INSERT INTO EMPLOYEE_PHONE(Employee_ID, Ph_No) VALUES('%s', '%s')" % (
+                row["Employee_ID"], row_phone[i])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
     return
 
 
@@ -72,25 +87,47 @@ def addMember():
     for i in range(m):
         row_phone.append(input("Phone Number : "))
 
-    query = "INSERT INTO MEMBERS(Member_ID, First_Name, Last_Name, Date_of_Reg, DOB, Email_ID, Monthly_Fee) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%d')" % (
-        row["Member_ID"], row["First_Name"], row["Last_Name"], row["Date_of_Reg"], row["DOB"], row["Email_ID"], row["Monthly_Fee"])
-    cur.execute(query)
-    con.commit()
+    try:
+        query = "INSERT INTO MEMBERS(Member_ID, First_Name, Last_Name, Date_of_Reg, DOB, Email_ID, Monthly_Fee) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%d')" % (
+            row["Member_ID"], row["First_Name"], row["Last_Name"], row["Date_of_Reg"], row["DOB"], row["Email_ID"], row["Monthly_Fee"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
 
-    query = "INSERT INTO MEMBER_PACKAGE(Member_ID, Package) VALUES('%s', '%s')" % (
-        row["Member_ID"], row["Package"])
+    try:
+        query = "INSERT INTO MEMBER_PACKAGE(Member_ID, Package) VALUES('%s', '%s')" % (
+            row["Member_ID"], row["Package"])
+        cur.execute(query)
+        cut.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
 
     for i in range(n):
-        query = "INSERT INTO MEMBER_ADDRESS(Member_ID, Address) VALUES('%s', '%s')" % (
-            row["Member_ID"], row_add[i])
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "INSERT INTO MEMBER_ADDRESS(Member_ID, Address) VALUES('%s', '%s')" % (
+                row["Member_ID"], row_add[i])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
 
     for i in range(m):
-        query = "INSERT INTO MEMBER_PHONE(Member_ID, Ph_No) VALUES('%s', '%s')" % (
-            row["Member_ID"], row_phone[i])
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "INSERT INTO MEMBER_PHONE(Member_ID, Ph_No) VALUES('%s', '%s')" % (
+                row["Member_ID"], row_phone[i])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
     return
 
 
@@ -105,28 +142,46 @@ def addMemberGuest():
     row["Check-In_Date"] = input("Check-In_Date(YYYY-MM-DD): ")
     row["Check-Out_Date"] = input("Check-Out_Date(YYYY-MM-DD): ")
 
-    # Not doing anything for cost of staying
-
-    query = "SELECT isOccupied FROM HOTEL_I WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
-        row["Hotel_ID"], row["Room_Number"])
-    cur.execute(query)
+    try:
+        query = "SELECT isOccupied FROM HOTEL_I WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
+            row["Hotel_ID"], row["Room_Number"])
+        cur.execute(query)
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
     x = cur.fetchone()
     con.commit()
 
     if x["isOccupied"] == 0:
-        query = "INSERT INTO MEMBER_GUESTS(Hotel_ID, Room_No, Member_ID, Check_In_Date, Check_Out_Date,Cost_Of_Staying) VALUES('%s', '%s', '%s', '%s', '%s',0 )" % (
-            row["Hotel_ID"], row["Room_Number"], row["Member_ID"], row["Check-In_Date"], row["Check-Out_Date"])
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "INSERT INTO MEMBER_GUESTS(Hotel_ID, Room_No, Member_ID, Check_In_Date, Check_Out_Date,Cost_Of_Staying) VALUES('%s', '%s', '%s', '%s', '%s',0 )" % (
+                row["Hotel_ID"], row["Room_Number"], row["Member_ID"], row["Check-In_Date"], row["Check-Out_Date"])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
+        try:
+            query = "UPDATE MEMBER_GUESTS M SET COST_OF_STAYING = (CHECK_OUT_DATE-CHECK_IN_DATE)*(SELECT PRICE_DAY FROM HOTEL_I WHERE HOTEL_ID = M.HOTEL_ID AND M.ROOM_NO=ROOM_NUMBER)"
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
 
-        query = "UPDATE MEMBER_GUESTS M SET COST_OF_STAYING = (CHECK_OUT_DATE-CHECK_IN_DATE)*(SELECT PRICE_DAY FROM HOTEL_I WHERE HOTEL_ID = M.HOTEL_ID AND M.ROOM_NO=ROOM_NUMBER)"
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "UPDATE HOTEL_I SET ISOCCUPIED=1,ISMEMBER=1 WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
+                row["Hotel_ID"], row["Room_Number"])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
 
-        query = "UPDATE HOTEL_I SET ISOCCUPIED=1,ISMEMBER=1 WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
-            row["Hotel_ID"], row["Room_Number"])
-        cur.execute(query)
-        con.commit()
     else:
         print("Room already occupied")
 
@@ -145,27 +200,48 @@ def addNonMemberGuest():
     row["Check-Out_Date"] = input("Check-Out_Date(YYYY-MM-DD): ")
     row["Phone_Number"] = input("Phone Number: ")
 
-    query = "SELECT isOccupied FROM HOTEL_I WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
-        row["Hotel_ID"], row["Room_Number"])
-    cur.execute(query)
+    try:
+        query = "SELECT isOccupied FROM HOTEL_I WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
+            row["Hotel_ID"], row["Room_Number"])
+        cur.execute(query)
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
     x = cur.fetchone()
     # print(x)
     con.commit()
 
     if x["isOccupied"] == 0:
-        query = "INSERT INTO NON_MEMBER_GUESTS(Hotel_ID, Room_No, First_Name, Last_Name, Check_In_Date, Check_Out_Date, Phone_Number,Cost_Of_Staying) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s',0)" % (
-            row["Hotel_ID"], row["Room_Number"], row["First_Name"], row["Last_Name"], row["Check-In_Date"], row["Check-Out_Date"], row["Phone_Number"])
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "INSERT INTO NON_MEMBER_GUESTS(Hotel_ID, Room_No, First_Name, Last_Name, Check_In_Date, Check_Out_Date, Phone_Number,Cost_Of_Staying) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s',0)" % (
+                row["Hotel_ID"], row["Room_Number"], row["First_Name"], row["Last_Name"], row["Check-In_Date"], row["Check-Out_Date"], row["Phone_Number"])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
 
-        query = "UPDATE NON_MEMBER_GUESTS M SET COST_OF_STAYING = (CHECK_OUT_DATE-CHECK_IN_DATE)*((SELECT PRICE_DAY FROM HOTEL_I WHERE HOTEL_ID = M.HOTEL_ID AND M.ROOM_NO=ROOM_NUMBER)+1000);"
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "UPDATE NON_MEMBER_GUESTS M SET COST_OF_STAYING = (CHECK_OUT_DATE-CHECK_IN_DATE)*((SELECT PRICE_DAY FROM HOTEL_I WHERE HOTEL_ID = M.HOTEL_ID AND M.ROOM_NO=ROOM_NUMBER)+1000);"
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
 
-        query = "UPDATE HOTEL_I SET ISOCCUPIED=1,ISMEMBER=0 WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
-            row["Hotel_ID"], row["Room_Number"])
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "UPDATE HOTEL_I SET ISOCCUPIED=1,ISMEMBER=0 WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
+                row["Hotel_ID"], row["Room_Number"])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
+
     else:
         print("Room already occupied")
 
@@ -178,10 +254,16 @@ def addPackage():
     print("Enter the member_id and package you want to add: ")
     row["Member_ID"] = input("Member_ID: ")
     row["Package"] = input("Package: ")
-    query = "INSERT INTO MEMBER_PACKAGE(Member_ID, Package) VALUES('%s', '%s')" % (
-        row["Member_ID"], row["Package"])
-    cur.execute(query)
-    con.commit()
+
+    try:
+        query = "INSERT INTO MEMBER_PACKAGE(Member_ID, Package) VALUES('%s', '%s')" % (
+            row["Member_ID"], row["Package"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
     return
 
 
@@ -195,15 +277,25 @@ def addFinance():
     row["Income"] = int(input("Income: "))
     row["Expenditure"] = int(input("Expenditure: "))
 
-    query = "INSERT INTO FINANCE(Hotel_ID, Expenditure, Income, Month, Profit) VALUES('%s', '%d', '%d', '%s',0)" % (
-        row["Hotel_ID"], row["Expenditure"], row["Income"], row["Month"])
-    cur.execute(query)
-    con.commit()
+    try:
+        query = "INSERT INTO FINANCE(Hotel_ID, Expenditure, Income, Month, Profit) VALUES('%s', '%d', '%d', '%s',0)" % (
+            row["Hotel_ID"], row["Expenditure"], row["Income"], row["Month"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
 
-    query = "UPDATE FINANCE F SET PROFIT = (INCOME-EXPENDITURE) WHERE HOTEL_ID ='%s' AND MONTH='%s'" % (
-        row["Hotel_ID"], row["Month"])
-    cur.execute(query)
-    con.commit()
+    try:
+        query = "UPDATE FINANCE F SET PROFIT = (INCOME-EXPENDITURE) WHERE HOTEL_ID ='%s' AND MONTH='%s'" % (
+            row["Hotel_ID"], row["Month"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
 
     return
 
@@ -217,10 +309,15 @@ def addServiceProvider():
     row["Service_Description"] = input("Service_Description: ")
     row["Service_Price"] = int(input("Service_Price: "))
 
-    query = "INSERT INTO PROVIDERS_SERVICES(Service_Provider, Service_Description, Service_Price) VALUES('%s', '%s', '%d')" % (
-        row["Service_Provider"], row["Service_Description"], row["Service_Price"])
-    cur.execute(query)
-    con.commit()
+    try:
+        query = "INSERT INTO PROVIDERS_SERVICES(Service_Provider, Service_Description, Service_Price) VALUES('%s', '%s', '%d')" % (
+            row["Service_Provider"], row["Service_Description"], row["Service_Price"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
     return
 
 
@@ -234,10 +331,15 @@ def addRoom():
     row["Room_Number"] = input("Room_Number: ")
     row["Hotel_ID"] = input("Hotel ID: ")
 
-    query = "INSERT INTO HOTEL_I(isMember,isOccupied,Room_Type,Price_Day,Room_Number,Hotel_ID) VALUES(NULL,0,'%s', '%s', '%s', '%s')" % (
-        row["Room_Type"], row["Price_Day"], row["Room_Number"], row["Hotel_ID"])
-    cur.execute(query)
-    con.commit()
+    try:
+        query = "INSERT INTO HOTEL_I(isMember,isOccupied,Room_Type,Price_Day,Room_Number,Hotel_ID) VALUES(NULL,0,'%s', '%s', '%s', '%s')" % (
+            row["Room_Type"], row["Price_Day"], row["Room_Number"], row["Hotel_ID"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
     return
 
 
@@ -250,16 +352,26 @@ def addHotel():
     row["Location"] = input("Location: ")
     row["Manager_ID"] = input("Manager_ID: ")
 
-    query = "INSERT INTO DESTINATION(Hotel_ID,Hotel_Name,Location,Manager_ID) VALUES('%s', '%s', '%s', '%s')" % (
-        row["Hotel_ID"], row["Hotel_Name"], row["Location"], row["Manager_ID"])
-    cur.execute(query)
-    con.commit()
+    try:
+        query = "INSERT INTO DESTINATION(Hotel_ID,Hotel_Name,Location,Manager_ID) VALUES('%s', '%s', '%s', '%s')" % (
+            row["Hotel_ID"], row["Hotel_Name"], row["Location"], row["Manager_ID"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
 
     # shift that employee to that hotel
-    query = "UPDATE EMPLOYEE SET HOTEL_ID='%s' WHERE EMPLOYEE_ID=%s" % (
-        row["Hotel_ID"], row["Manager_ID"])
-    cur.execute(query)
-    con.commit()
+    try:
+        query = "UPDATE EMPLOYEE SET HOTEL_ID='%s' WHERE EMPLOYEE_ID=%s" % (
+            row["Hotel_ID"], row["Manager_ID"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
 
     return
 
@@ -273,21 +385,33 @@ def addRecreation():
     row["Supervisor_ID"] = input("Supervisor ID: ")
     row["Profit"] = int(input("Profit Received: "))
 
-    query = "SELECT HOTEL_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=%s" % (
-        row["Supervisor_ID"])
-    cur.execute(query)
+    try:
+        query = "SELECT HOTEL_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=%s" % (
+            row["Supervisor_ID"])
+        cur.execute(query)
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
     x = cur.fetchone()
     con.commit()
 
     # Supervisor must exist in that hotel
     if x["HOTEL_ID"] == row["Hotel_ID"]:
-        query = "INSERT INTO RECREATION(Hotel_ID,Service_Provider,Supervisor_ID,Profit) VALUES('%s', '%s', '%s', %d)" % (
-            row["Hotel_ID"], row["Service_Provider"], row["Supervisor_ID"], row["Profit"])
-        cur.execute(query)
-        con.commit()
+        try:
+            query = "INSERT INTO RECREATION(Hotel_ID,Service_Provider,Supervisor_ID,Profit) VALUES('%s', '%s', '%s', %d)" % (
+                row["Hotel_ID"], row["Service_Provider"], row["Supervisor_ID"], row["Profit"])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
+
     else:
         print("Supervisor does not work in this hotel")
     return
+
 
 def getFinancialReport():
     global cur
@@ -297,33 +421,40 @@ def getFinancialReport():
     if month == "01":
         m = "January"
     elif month == "02":
-        m="February"
+        m = "February"
     elif month == "03":
-        m="March"
-    elif month=="04":
-        m="April"
-    elif month=="05":
-        m="May"
-    elif month=="06":
-        m="June"
-    elif month=="07":
-        m="July"
-    elif month=="08":
-        m="August"
-    elif month=="09":
-        m="September"
-    elif month=="10":
-        m="October"
-    elif month=="11":
-        m="November"
-    elif month=="12":
-        m="December"
-    
-    query = "SELECT * FROM FINANCE F WHERE F.MONTH=%s ORDER BY HOTEL_ID ASC;"
-    no_of_rows = cur.execute(query, m)
+        m = "March"
+    elif month == "04":
+        m = "April"
+    elif month == "05":
+        m = "May"
+    elif month == "06":
+        m = "June"
+    elif month == "07":
+        m = "July"
+    elif month == "08":
+        m = "August"
+    elif month == "09":
+        m = "September"
+    elif month == "10":
+        m = "October"
+    elif month == "11":
+        m = "November"
+    elif month == "12":
+        m = "December"
+
+    try:
+        query = "SELECT * FROM FINANCE F WHERE F.MONTH=%s ORDER BY HOTEL_ID ASC;"
+        no_of_rows = cur.execute(query, m)
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
+
     rows = cur.fetchall()
     viewTable(rows)
     con.commit()
+
 
 def viewTable(rows):
 
@@ -398,19 +529,25 @@ def viewOptions():
         x = input("Hotel ID: ")
         query = "SELECT M2.FIRST_NAME, M2.LAST_NAME, M.CHECK_IN_DATE, M.CHECK_OUT_DATE FROM MEMBER_GUESTS M, MEMBERS M2 WHERE M2.MEMBER_ID=M.MEMBER_ID AND M.HOTEL_ID=%s;" % (
             x)
-    elif n==17:
+    elif n == 17:
         x = input("Hotel ID: ")
         query = "SELECT FIRST_NAME, LAST_NAME, CHECK_IN_DATE, CHECK_OUT_DATE FROM NON_MEMBER_GUESTS M WHERE M.HOTEL_ID=%s;" % (
             x)
     elif n == 18:
         print("Enter the YYYY-MM from which you want to see the registered members")
         m = input() + "-01"
-        query = "SELECT * FROM MEMBERS WHERE DATE(DATE_OF_REG) >= %s;" % (m)
-    elif n==19:
+        query = "SELECT * FROM MEMBERS WHERE DATE_OF_REG >= '%s';" % (m)
+    elif n == 19:
         getFinancialReport()
         return
 
-    no_of_rows = cur.execute(query)
+    try:
+        no_of_rows = cur.execute(query)
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
+
     rows = cur.fetchall()
     if rows == ():
         print("\n-----------------\nEMPTY HOTEL\n-----------------\n")
@@ -478,61 +615,65 @@ def deleteOptions():
     n = int(input())
 
     if n == 1:
-        x=input("Enter Hotel ID: ")
+        x = input("Enter Hotel ID: ")
         query = "DELETE FROM DESTINATION WHERE HOTEL_ID='%s';" % (x)
     elif n == 2:
-        x=input("Enter Member ID: ")
+        x = input("Enter Member ID: ")
         query = "DELETE FROM MEMBERS WHERE MEMBER_ID='%s';" % (x)
     elif n == 3:
-        x1=input("Enter Member ID: ")
-        x2=input("Enter Member Package: ")
-        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PACKAGE='%s';" %(x1,x2)
+        x1 = input("Enter Member ID: ")
+        x2 = input("Enter Member Package: ")
+        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PACKAGE='%s';" % (
+            x1, x2)
     elif n == 4:
-        x1=input("Enter Member ID: ")
-        x2=input("Enter Member Address: ")
-        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.ADDRESS='%s';" %(x1,x2)
+        x1 = input("Enter Member ID: ")
+        x2 = input("Enter Member Address: ")
+        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.ADDRESS='%s';" % (
+            x1, x2)
     elif n == 5:
-        x1=input("Enter Member ID: ")
-        x2=input("Enter Member Phone: ")
-        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PH_NO='%s';" %(x1,x2)
+        x1 = input("Enter Member ID: ")
+        x2 = input("Enter Member Phone: ")
+        query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PH_NO='%s';" % (
+            x1, x2)
     elif n == 6:
-        x1=input("Enter Hotel ID: ")
-        x2=input("Enter Month: ")
-        query = "DELETE FROM FINANCE F WHERE F.HOTEL_ID='%s' AND F.MONTH='%s';" %(x1,x2)
+        x1 = input("Enter Hotel ID: ")
+        x2 = input("Enter Month: ")
+        query = "DELETE FROM FINANCE F WHERE F.HOTEL_ID='%s' AND F.MONTH='%s';" % (
+            x1, x2)
     elif n == 7:
-        x=input("Enter Employee ID: ")
+        x = input("Enter Employee ID: ")
         query = "DELETE FROM EMPLOYEE WHERE EMPLOYEE_ID='%s';" % (x)
     elif n == 8:
-        x1=input("Enter Employee ID: ")
-        x2=input("Enter Address: ")
-        query = "DELETE FROM EMPLOYEE E WHERE E.EMPLOYEE_ID='%s' AND E.ADDRESS='%s';" %(x1,x2)
+        x1 = input("Enter Employee ID: ")
+        x2 = input("Enter Address: ")
+        query = "DELETE FROM EMPLOYEE E WHERE E.EMPLOYEE_ID='%s' AND E.ADDRESS='%s';" % (
+            x1, x2)
     elif n == 9:
-        x1=input("Enter Hotel ID: ")
-        x2=input("Enter Phone: ")
-        query = "DELETE FROM EMPLOYEE E WHERE E.HOTEL_ID='%s' AND E.Ph_No='%s';" %(x1,x2)
+        x1 = input("Enter Hotel ID: ")
+        x2 = input("Enter Phone: ")
+        query = "DELETE FROM EMPLOYEE E WHERE E.HOTEL_ID='%s' AND E.Ph_No='%s';" % (
+            x1, x2)
     elif n == 10:
-        x1=input("Enter Hotel ID: ")
-        x2=input("Enter Service_Provider: ")
-        query = "DELETE FROM RECREATION R WHERE R.HOTEL_ID='%s' AND R.SERVICE_PROVIDER='%s';" %(x1,x2)
+        x1 = input("Enter Hotel ID: ")
+        x2 = input("Enter Service_Provider: ")
+        query = "DELETE FROM RECREATION R WHERE R.HOTEL_ID='%s' AND R.SERVICE_PROVIDER='%s';" % (
+            x1, x2)
     elif n == 11:
-        X=input("Enter Service Provider: ")
-        query= "DELETE FROM RECREATION R WHERE R.SERVICE_PROVIER='%s';" % (x)
-    cur.execute(query)
-    con.commit()
+        x = input("Enter Service Provider: ")
+        query = "DELETE FROM RECREATION R WHERE R.SERVICE_PROVIER='%s';" % (x)
+
+    try:
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
 
 
-optionFunctionMapping = {
-    1: addEmployee,
-    2: addMember,
-    3: addMemberGuest,
-    4: addNonMemberGuest,
-    5: addPackage,
-    6: addFinance,
-    7: addServiceProvider,
-    8: addRoom,
-    9: addHotel,
-    10: addRecreation
-}
+def modifyOptions():
+    return
+
 
 while(1):
     # tmp = sp.call('clear', shell=True)
@@ -541,26 +682,37 @@ while(1):
 
     try:
         con = pymysql.connect(host='localhost',
-                          user='mallika',
-                          password='Aaaa1234%',
-                          db='RESORT',
-                          cursorclass=pymysql.cursors.DictCursor)
+                              user='tanvi',
+                              password='password',
+                              db='RESORT',
+                              cursorclass=pymysql.cursors.DictCursor)
         with con:
             cur = con.cursor()
+            exitflag = 0
             while(1):
                 # tmp = sp.call('clear', shell=True)
                 print("CHOOSE AN OPTION\n")
                 print("1.View Options")
                 print("2.Addition Options")
                 print("3.Deletion Options")
-                inp=int(input("\nCHOICE ? "))
-                if(inp==1):
+                print("4.Modify Options")
+                print("5.Quit")
+                inp = int(input("\nCHOICE ? "))
+                if(inp == 1):
                     viewOptions()
-                elif(inp==2):
+                elif(inp == 2):
                     addOptions()
-                elif(inp==3):
+                elif(inp == 3):
                     deleteOptions()
+                elif(inp == 4):
+                    modifyOptions()
+                elif(inp == 5):
+                    exitflag = 1
+                    print("Bye")
+                    break
 
+        if exitflag == 1:
+            break
     except Exception as e:
         print(e)
         #tmp = sp.call('clear', shell=True)
