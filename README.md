@@ -1,6 +1,6 @@
 # ResortChainDBMS
 
-Data Applications project
+Data Applications project.
 
 ## USAGE
 
