@@ -584,6 +584,7 @@ def changeStay():
                 print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
                 return
 
+
 def updateManager():
     global cur
     row = {}
@@ -615,6 +616,7 @@ def updateManager():
     else:
         print("Employee does not work in this hotel")
     return
+
 
 def viewTable(rows):
 
