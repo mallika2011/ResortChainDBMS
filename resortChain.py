@@ -273,19 +273,24 @@ def addNonMemberGuest():
 def addPackage():
     global cur
     row = {}
-    print("Enter the member_id and package you want to add: ")
+    print("Enter the member_id and package you want to add (Red, Blue, Green): ")
     row["Member_ID"] = input("Member_ID: ")
     row["Package"] = input("Package: ")
 
-    try:
-        query = "INSERT INTO MEMBER_PACKAGE(Member_ID, Package) VALUES('%s', '%s')" % (
-            row["Member_ID"], row["Package"])
-        cur.execute(query)
-        con.commit()
-    except Exception as e:
-        print(e)
-        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
+    if row["Package"]!="Red" and row["Package"]!="Green" and row["Package"]!="Blue" :
+        print("Invalid Package")
         return
+
+    else:    
+        try:
+            query = "INSERT INTO MEMBER_PACKAGE(Member_ID, Package) VALUES('%s', '%s')" % (
+                row["Member_ID"], row["Package"])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
+            return
     return
 
 
@@ -386,17 +391,6 @@ def addHotel():
     row["Location"] = input("Location: ")
     row["Manager_ID"] = input("Manager_ID: ")
 
-    # shift that employee to that hotel
-    try:
-        query = "UPDATE EMPLOYEE SET HOTEL_ID='%s' WHERE EMPLOYEE_ID=%s" % (
-            row["Hotel_ID"], row["Manager_ID"])
-        cur.execute(query)
-        con.commit()
-    except Exception as e:
-        print(e)
-        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
-        return
-
     try:
         query = "INSERT INTO DESTINATION(Hotel_ID,Hotel_Name,Location,Manager_ID) VALUES('%s', '%s', '%s', '%s')" % (
             row["Hotel_ID"], row["Hotel_Name"], row["Location"], row["Manager_ID"])
@@ -407,6 +401,16 @@ def addHotel():
         print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
+        # shift that employee to that hotel
+    try:
+        query = "UPDATE EMPLOYEE SET HOTEL_ID='%s' WHERE EMPLOYEE_ID=%s" % (
+            row["Hotel_ID"], row["Manager_ID"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
+        return
 
     return
 
@@ -617,6 +621,52 @@ def updateManager():
         print("Employee does not work in this hotel")
     return
 
+def updateSupervisor():
+    global cur
+    row = {}
+    print("Enter the new hotel's details: ")
+    row["Hotel_ID"] = input("Hotel ID: ")
+    row["Sup_ID"] = input("Sup_ID: ")
+    try:
+        query = "SELECT HOTEL_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=%s" % (
+            row["Sup_ID"])
+        cur.execute(query)
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
+    x = cur.fetchone()
+    con.commit()
+
+    # Supervisor must exist in that hotel
+    if x["HOTEL_ID"] == row["Hotel_ID"]:
+        try:
+            query = "UPDATE REVREATION SET SUPERVISOR_ID='%s' WHERE Hotel_ID=%s" % (
+                row["Sup_ID"], row["Hotel_ID"])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
+            return
+    else:
+        print("Employee does not work in this hotel")
+    return
+
+def transferEmployee():
+    global cur
+    row = {}
+    row["Employee_ID"] = input("Employee ID: ")
+    row["Hotel_ID"] = input("Hotel ID: ")
+    
+    try:
+        query = "UPDATE EMPLOYEE SET Hotel_ID='%s' WHERE Employee_ID='%s'" % (
+            row["Hotel_ID"],row["Employee_ID"])
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
 
 def viewTable(rows):
 
@@ -841,6 +891,9 @@ def updateOptions():
     print("1.  EMPLOYEE SALARY")
     print("2.  CHECK OUT DATE")
     print("3.  UPDATE MANAGER")
+    print("4.  UPDATE SUPERVISOR")
+    print("5.  TRANSFER EMPLOYEE")
+
     print("\n\n")
     n =input()
 
@@ -859,6 +912,12 @@ def updateOptions():
         return
     elif n=='3' :
         updateManager()
+        return
+    elif n=='4':
+        updateSupervisor()
+        return
+    elif n=='5':
+        transferEmployee()
         return
 
     try:
