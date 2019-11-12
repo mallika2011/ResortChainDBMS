@@ -736,6 +736,56 @@ def updateOptions():
     con.commit()
     return
 
+def refreshDatabase():
+    global cur
+
+    # Deleting incorrectly entered data in insert function
+    try:
+        query="UPDATE HOTEL_I H,MEMBER_GUESTS M SET ISOCCUPIED=0,ISMEMBER=NULL WHERE M.Room_No=H.Room_Number AND M.Hotel_ID=H.Hotel_ID AND Check_In_Date>=CURRENT_DATE"
+        cur.execute(query)
+        con.commit()
+        query="DELETE FROM FACILITIES_AVAILED WHERE MEMBER_ID IN(SELECT MEMBER_ID FROM MEMBER_GUESTS WHERE Check_In_Date>=CURRENT_DATE)"
+        cur.execute(query)
+        con.commit()
+        query="DELETE FROM MEMBER_GUESTS WHERE Check_In_Date>=CURRENT_DATE"
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+    
+    try:
+        query="UPDATE HOTEL_I H,NON_MEMBER_GUESTS M SET ISOCCUPIED=0,ISMEMBER=NULL WHERE M.Room_No=H.Room_Number AND M.Hotel_ID=H.Hotel_ID AND Check_In_Date>=CURRENT_DATE"
+        cur.execute(query)
+        con.commit()
+        query="DELETE FROM NON_MEMBER_GUESTS WHERE Check_In_Date>=CURRENT_DATE"
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+
+    #Deleting Cheked out Guests
+    try:
+        query="UPDATE HOTEL_I H,MEMBER_GUESTS M SET ISOCCUPIED=0,ISMEMBER=NULL WHERE M.Room_No=H.Room_Number AND M.Hotel_ID=H.Hotel_ID AND Check_Out_Date<CURRENT_DATE"
+        cur.execute(query)
+        con.commit()
+        query="DELETE FROM FACILITIES_AVAILED WHERE MEMBER_ID IN(SELECT MEMBER_ID FROM MEMBER_GUESTS WHERE Check_Out_Date<CURRENT_DATE)"
+        cur.execute(query)
+        con.commit()
+        query="DELETE FROM MEMBER_GUESTS WHERE Check_Out_Date<CURRENT_DATE"
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+
+    try: 
+        query="UPDATE HOTEL_I H,NON_MEMBER_GUESTS M SET ISOCCUPIED=0,ISMEMBER=NULL WHERE M.Room_No=H.Room_Number AND M.Hotel_ID=H.Hotel_ID AND Check_Out_Date<CURRENT_DATE"
+        cur.execute(query)
+        con.commit()
+        query="DELETE FROM NON_MEMBER_GUESTS WHERE Check_Out_Date<CURRENT_DATE"
+        cur.execute(query)
+        con.commit() 
+    except Exception as e:
+        print(e)
 
 while(1):
     # tmp = sp.call('clear', shell=True)
