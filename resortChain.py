@@ -15,18 +15,31 @@ def addEmployee():
     row["Employee_ID"] = input("Employee ID: ")
     row["First_Name"] = input("First Name: ")
     row["Last_Name"] = input("Last Name: ")
-    row["Salary"] = int(input("Salary: "))
+    
+    try:
+        row["Salary"] = int(input("Salary: "))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
     row["DOB"] = input("DOB (YYYY-MM-DD): ")
     row["Hotel_ID"] = input("Hotel ID: ")
     row["Email_ID"] = input("Email ID: ")
 
     row_add = []
-    n = int(input("Enter the number of employee's addresses you want to input: "))
+    try:
+        n = int(input("Enter the number of employee's addresses you want to input: "))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
     for i in range(n):
         row_add.append(input("Address: "))
 
     row_phone = []
-    m = int(input("Enter the number of employee's phone number you want to input: "))
+    try:
+        m = int(input("Enter the number of employee's phone number you want to input: "))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
     for i in range(m):
         row_phone.append(input("Phone Number : "))
 
@@ -79,12 +92,20 @@ def addMember():
     row["Package"] = "Red"  # By default we are giving red
     row['Monthly_Fee'] = 500
     row_add = []
-    n = int(input("Enter the number of member's addresses you want to input: "))
+    try:
+        n = int(input("Enter the number of member's addresses you want to input: "))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
     for i in range(n):
         row_add.append(input("Address: "))
 
     row_phone = []
-    m = int(input("Enter the number of member's phone number you want to input: "))
+    try:
+        m = int(input("Enter the number of member's phone number you want to input: "))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
     for i in range(m):
         row_phone.append(input("Phone Number : "))
 
@@ -275,8 +296,16 @@ def addFinance():
 
     row["Hotel_ID"] = input("Hotel_ID: ")
     row["Month"] = input("Month: ")
-    row["Income"] = int(input("Income: "))
-    row["Expenditure"] = int(input("Expenditure: "))
+    try:
+        row["Income"] = int(input("Income: "))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
+    try:    
+        row["Expenditure"] = int(input("Expenditure: "))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
 
     try:
         query = "INSERT INTO FINANCE(Hotel_ID, Expenditure, Income, Month, Profit) VALUES('%s', '%d', '%d', '%s',0)" % (
@@ -308,7 +337,11 @@ def addServiceProvider():
 
     row["Service_Provider"] = input("Service_Provider: ")
     row["Service_Description"] = input("Service_Description: ")
-    row["Service_Price"] = int(input("Service_Price: "))
+    try:
+        row["Service_Price"] = int(input("Service_Price: "))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
 
     try:
         query = "INSERT INTO PROVIDERS_SERVICES(Service_Provider, Service_Description, Service_Price) VALUES('%s', '%s', '%d')" % (
@@ -385,7 +418,11 @@ def addRecreation():
     row["Hotel_ID"] = input("Hotel ID: ")
     row["Service_Provider"] = input("Service Provider: ")
     row["Supervisor_ID"] = input("Supervisor ID: ")
-    row["Profit"] = int(input("Profit Received: "))
+    try:
+        row["Profit"] = int(input("Profit Received: "))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
 
     try:
         query = "SELECT HOTEL_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=%s" % (
@@ -507,7 +544,11 @@ def changeStay():
     print("Enter new Checkout Date(YYYY-MM-DD): ")
     newday = input()
     args = (newday.split("-"))
-    pydy = datetime.datetime(int(args[0]), int(args[1]), int(args[2]))
+    try:
+        pydy = datetime.datetime(int(args[0]), int(args[1]), int(args[2]))
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
 
     if datetime.datetime.now() > pydy:
         print("Can't enter a date that has already passed")
@@ -611,52 +652,52 @@ def viewOptions():
     print("18. LATEST MEMBERS")
     print("19. FINANCIAL REPORT")
     print("\n\n")
-    n = int(input())
+    n = input()
 
-    if n == 1:
+    if n == '1':
         query = "SELECT * FROM DESTINATION;"
         print("I am here")
-    elif n == 2:
+    elif n == '2':
         query = "SELECT * FROM MEMBERS;"
-    elif n == 3:
+    elif n == '3':
         query = "SELECT * FROM MEMBER_PACKAGE;"
-    elif n == 4:
+    elif n == '4':
         query = "SELECT * FROM MEMBER_ADDRESS;"
-    elif n == 5:
+    elif n == '5':
         query = "SELECT * FROM MEMBER_PHONE;"
-    elif n == 6:
+    elif n == '6':
         query = "SELECT * FROM FINANCE;"
-    elif n == 7:
+    elif n == '7':
         query = "SELECT * FROM EMPLOYEE;"
-    elif n == 8:
+    elif n == '8':
         query = "SELECT * FROM EMPLOYEE_ADDRESS;"
-    elif n == 9:
+    elif n == '9':
         query = "SELECT * FROM EMPLOYEE_PHONE;"
-    elif n == 10:
+    elif n == '10':
         query = "SELECT * FROM MEMBER_GUESTS;"
-    elif n == 11:
+    elif n == '11':
         query = "SELECT * FROM NON_MEMBER_GUESTS;"
-    elif n == 12:
+    elif n == '12':
         query = "SELECT * FROM RECREATION;"
-    elif n == 13:
+    elif n == '13':
         query = "SELECT * FROM PROVIDERS_SERVICES;"
-    elif n == 14:
+    elif n == '14':
         query = "SELECT * FROM HOTEL_I;"
-    elif n == 15:
+    elif n == '15':
         query = "SELECT * FROM FACILITIES_AVAILED"
-    elif n == 16:
+    elif n == '16':
         x = input("Hotel ID: ")
         query = "SELECT M2.FIRST_NAME, M2.LAST_NAME, M.CHECK_IN_DATE, M.CHECK_OUT_DATE FROM MEMBER_GUESTS M, MEMBERS M2 WHERE M2.MEMBER_ID=M.MEMBER_ID AND M.HOTEL_ID=%s;" % (
             x)
-    elif n == 17:
+    elif n == '17':
         x = input("Hotel ID: ")
         query = "SELECT FIRST_NAME, LAST_NAME, CHECK_IN_DATE, CHECK_OUT_DATE FROM NON_MEMBER_GUESTS M WHERE M.HOTEL_ID=%s;" % (
             x)
-    elif n == 18:
+    elif n == '18':
         print("Enter the YYYY-MM from which you want to see the registered members")
         m = input() + "-01"
         query = "SELECT * FROM MEMBERS WHERE DATE_OF_REG >= '%s';" % (m)
-    elif n == 19:
+    elif n == '19':
         getFinancialReport()
         return
 
@@ -690,29 +731,29 @@ def addOptions():
     print("10. ROOMS")
     print("11. FACILITIES AVAILED")
     print("\n\n")
-    n = int(input())
+    n = input()
 
-    if n == 1:
+    if n == '1':
         addHotel()
-    elif n == 2:
+    elif n == '2':
         addMember()
-    elif n == 3:
+    elif n == '3':
         addPackage()
-    elif n == 4:
+    elif n == '4':
         addFinance()
-    elif n == 5:
+    elif n == '5':
         addEmployee()
-    elif n == 6:
+    elif n == '6':
         addMemberGuest()
-    elif n == 7:
+    elif n == '7':
         addNonMemberGuest()
-    elif n == 8:
+    elif n == '8':
         addRecreation()
-    elif n == 9:
+    elif n == '9':
         addServiceProvider()
-    elif n == 10:
+    elif n == '10':
         addRoom()
-    elif n == 11:
+    elif n == '11':
         addFacilitiesAvailed()
 
 
@@ -734,53 +775,53 @@ def deleteOptions():
     # print("12. HOTEL_I")
     # print("12. FACILITIES AVAILED")
     print("\n\n")
-    n = int(input())
+    n = input()
 
-    if n == 1:
+    if n == '1':
         x = input("Enter Hotel ID: ")
         query = "DELETE FROM DESTINATION WHERE HOTEL_ID='%s';" % (x)
-    elif n == 2:
+    elif n == '2':
         x = input("Enter Member ID: ")
         query = "DELETE FROM MEMBERS WHERE MEMBER_ID='%s';" % (x)
-    elif n == 3:
+    elif n == '3':
         x1 = input("Enter Member ID: ")
         x2 = input("Enter Member Package: ")
         query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PACKAGE='%s';" % (
             x1, x2)
-    elif n == 4:
+    elif n == '4':
         x1 = input("Enter Member ID: ")
         x2 = input("Enter Member Address: ")
         query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.ADDRESS='%s';" % (
             x1, x2)
-    elif n == 5:
+    elif n == '5':
         x1 = input("Enter Member ID: ")
         x2 = input("Enter Member Phone: ")
         query = "DELETE FROM MEMBERS M WHERE M.MEMBER_ID='%s' AND M.PH_NO='%s';" % (
             x1, x2)
-    elif n == 6:
+    elif n == '6':
         x1 = input("Enter Hotel ID: ")
         x2 = input("Enter Month: ")
         query = "DELETE FROM FINANCE F WHERE F.HOTEL_ID='%s' AND F.MONTH='%s';" % (
             x1, x2)
-    elif n == 7:
+    elif n == '7':
         x = input("Enter Employee ID: ")
         query = "DELETE FROM EMPLOYEE WHERE EMPLOYEE_ID='%s';" % (x)
-    elif n == 8:
+    elif n == '8':
         x1 = input("Enter Employee ID: ")
         x2 = input("Enter Address: ")
         query = "DELETE FROM EMPLOYEE E WHERE E.EMPLOYEE_ID='%s' AND E.ADDRESS='%s';" % (
             x1, x2)
-    elif n == 9:
+    elif n == '9':
         x1 = input("Enter Hotel ID: ")
         x2 = input("Enter Phone: ")
         query = "DELETE FROM EMPLOYEE E WHERE E.HOTEL_ID='%s' AND E.Ph_No='%s';" % (
             x1, x2)
-    elif n == 10:
+    elif n == '10':
         x1 = input("Enter Hotel ID: ")
         x2 = input("Enter Service_Provider: ")
         query = "DELETE FROM RECREATION R WHERE R.HOTEL_ID='%s' AND R.SERVICE_PROVIDER='%s';" % (
             x1, x2)
-    elif n == 11:
+    elif n == '11':
         x = input("Enter Service Provider: ")
         query = "DELETE FROM RECREATION R WHERE R.SERVICE_PROVIER='%s';" % (x)
 
@@ -799,22 +840,31 @@ def updateOptions():
     print("2.  CHECK OUT DATE")
     print("3.  UPDATE MANAGER")
     print("\n\n")
-    n = int(input())
+    n =input()
 
-    if n == 1:
+    if n == '1':
         id = input("Enter the Employee_ID for which you want to update salary: ")
-        salary = int(input("Enter the new salary: "))
+        try:
+            salary = int(input("Enter the new salary: "))
+        except Exception as e:
+            print(e)
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
+
         query = "UPDATE EMPLOYEE SET SALARY = %d WHERE Employee_ID = %s;" % (
             salary, id)
-    elif n == 2:
+    elif n == '2':
         changeStay()
         return
-    elif n==3 :
+    elif n=='3' :
         updateManager()
         return
 
-    cur.execute(query)
-    con.commit()
+    try:
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        print(e)
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
     return
 
 
@@ -870,46 +920,48 @@ def refreshDatabase():
         print(e)
 
 while(1):
-    # tmp = sp.call('clear', shell=True)
-    # username = input("Username: ")
-    # password = input("Password: ")
+    tmp = sp.call('clear', shell=True)
+    username = input("Username: ")
+    password = input("Password: ")
 
     try:
         con = pymysql.connect(host='localhost',
-                              user='mallika',
-                              password='Aaaa1234%',
+                              user=username,
+                              password=password,
                               db='RESORT',
                               cursorclass=pymysql.cursors.DictCursor)
-        with con:
-            cur = con.cursor()
-            exitflag = 0
-            while(1):
-                # tmp = sp.call('clear', shell=True)
-                refreshDatabase()
-                print("CHOOSE AN OPTION\n")
-                print("1.View Options")
-                print("2.Addition Options")
-                print("3.Deletion Options")
-                print("4.Modify Options")
-                print("5.Quit")
-                inp = int(input("\nCHOICE ? "))
-                if(inp == 1):
-                    viewOptions()
-                elif(inp == 2):
-                    addOptions()
-                elif(inp == 3):
-                    deleteOptions()
-                elif(inp == 4):
-                    updateOptions()
-                elif(inp == 5):
-                    exitflag = 1
-                    print("Bye")
-                    break
-
-        if exitflag == 1:
-            break
     except Exception as e:
         print(e)
         #tmp = sp.call('clear', shell=True)
         print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
         tmp = input("Enter any key to CONTINUE>")
+        continue
+
+    with con:
+        cur = con.cursor()
+        exitflag = 0
+        while(1):
+            # tmp = sp.call('clear', shell=True)
+            refreshDatabase()
+            print("CHOOSE AN OPTION\n")
+            print("1.View Options")
+            print("2.Addition Options")
+            print("3.Deletion Options")
+            print("4.Modify Options")
+            print("5.Quit")
+            inp = input("\nCHOICE ? ")
+            if(inp == '1'):
+                viewOptions()
+            elif(inp == '2'):
+                addOptions()
+            elif(inp == '3'):
+                deleteOptions()
+            elif(inp == '4'):
+                updateOptions()
+            elif(inp == '5'):
+                    exitflag = 1
+                    print("Bye")
+                    break
+
+    if exitflag == 1:
+        break
