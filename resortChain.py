@@ -495,8 +495,8 @@ def addFacilitiesAvailed():
 def getFinancialReport():
     global cur
     # query = "MONTH"
-    date = datetime.datetime.now()
-    month = date[5] + date[6]
+    print("Enter the MM from which you want to see the registered members: ")
+    month = input("(01-12): ")
     if month == "01":
         m = "January"
     elif month == "02":
@@ -621,7 +621,11 @@ def updateManager():
 def viewTable(rows):
 
     a = []
-    a.append(list(rows[0].keys()))
+    try:
+        a.append(list(rows[0].keys()))
+    except:
+        print("\n-----------------\nEMPTY TABLE\n-----------------\n")   
+        return
     for row in rows:
         b = []
         for k in row.keys():
@@ -658,7 +662,6 @@ def viewOptions():
 
     if n == '1':
         query = "SELECT * FROM DESTINATION;"
-        print("I am here")
     elif n == '2':
         query = "SELECT * FROM MEMBERS;"
     elif n == '3':
@@ -711,10 +714,7 @@ def viewOptions():
         return
 
     rows = cur.fetchall()
-    if rows == ():
-        print("\n-----------------\nEMPTY HOTEL\n-----------------\n")
-    else:
-        viewTable(rows)
+    viewTable(rows)
     con.commit()
 
 
@@ -925,8 +925,8 @@ while(1):
     tmp = sp.call('clear', shell=True)
     # username = input("Username: ")
     # password = input("Password: ")
-    username="mallika"
-    password="Aaaa1234%"
+    username="tanvi"
+    password="password"
 
     try:
         con = pymysql.connect(host='localhost',
