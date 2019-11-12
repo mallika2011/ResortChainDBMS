@@ -101,7 +101,7 @@ def addMember():
         query = "INSERT INTO MEMBER_PACKAGE(Member_ID, Package) VALUES('%s', '%s')" % (
             row["Member_ID"], row["Package"])
         cur.execute(query)
-        cut.commit()
+        cur.commit()
     except Exception as e:
         print(e)
         print("Please try with different data")
@@ -413,6 +413,49 @@ def addRecreation():
     return
 
 
+def addFacilitiesAvailed():
+    member_id = input("Enter Member ID: ")
+    provider = input("Enter Service Provider: ")
+
+    query="SELECT HOTEL_ID FROM MEMBER_GUESTS WHERE MEMBER_ID=%s" % (member_id)
+    cur.execute(query)
+    x=cur.fetchone()
+    print(x)
+    if x==None:
+        print("Member currently not staying in any hotel")
+        return
+    else:
+        query="SELECT * FROM RECREATION WHERE SERVICE_PROVIDER='%s' AND HOTEL_ID='%s'" % (provider,x['HOTEL_ID'])
+        cur.execute(query)
+        x2=cur.fetchone()
+        print(provider,x['HOTEL_ID'])
+        print(x2)
+        if x2==None:
+            print("This service is not available in the hotel the member is staying in")
+            return       
+
+    try:
+        query = "SELECT MEMBER_ID, SERVICE_PROVIDER FROM FACILITIES_AVAILED WHERE MEMBER_ID='%s' AND SERVICE_PROVIDER='%s'" % (
+            member_id, provider)
+        cur.execute(query)
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
+    x = cur.fetchone()
+
+    if x == None:
+        query = "INSERT INTO FACILITIES_AVAILED(MEMBER_ID, SERVICE_PROVIDER,NUMBER_OF_TIMES) VALUES('%s', '%s',1)" % (
+            member_id, provider)
+    else:
+        query = "UPDATE FACILITIES_AVAILED SET NUMBER_OF_TIMES=NUMBER_OF_TIMES+1 WHERE MEMBER_ID='%s' AND SERVICE_PROVIDER='%s'" % (
+            member_id, provider)
+
+    cur.execute(query)
+    con.commit()
+    return
+
+
 def getFinancialReport():
     global cur
     # query = "MONTH"
@@ -569,6 +612,7 @@ def addOptions():
     print("8. RECREATION")
     print("9. PROVIDERS_SERVICES")
     print("10. ROOMS")
+    print("11. FACILITIES AVAILED")
     print("\n\n")
     n = int(input())
 
@@ -592,6 +636,8 @@ def addOptions():
         addServiceProvider()
     elif n == 10:
         addRoom()
+    elif n == 11:
+        addFacilitiesAvailed()
 
 
 def deleteOptions():
@@ -671,7 +717,23 @@ def deleteOptions():
         return
 
 
-def modifyOptions():
+def updateOptions():
+    print("Choose an UPDATE option\n\n")
+    print("1.  EMPLOYEE SALARY")
+    print("2.  CHECK OUT DATE")
+    print("\n\n")
+    n = int(input())
+
+    if n == 1:
+        id = input("Enter the Employee_ID for which you want to update salary: ")
+        salary = int(input("Enter the new salary: "))
+        query = "UPDATE EMPLOYEE SET SALARY = %d WHERE Employee_ID = %s;" % (
+            salary, id)
+    elif n == 2:
+        print("Tanvi")
+
+    cur.execute(query)
+    con.commit()
     return
 
 
@@ -682,8 +744,8 @@ while(1):
 
     try:
         con = pymysql.connect(host='localhost',
-                              user='tanvi',
-                              password='password',
+                              user='mallika',
+                              password='Aaaa1234%',
                               db='RESORT',
                               cursorclass=pymysql.cursors.DictCursor)
         with con:
@@ -705,7 +767,7 @@ while(1):
                 elif(inp == 3):
                     deleteOptions()
                 elif(inp == 4):
-                    modifyOptions()
+                    updateOptions()
                 elif(inp == 5):
                     exitflag = 1
                     print("Bye")
