@@ -27,8 +27,6 @@ CREATE TABLE DESTINATION (
   Location varchar(100) NOT NULL,
   Manager_ID varchar(4) NOT NULL,
   PRIMARY KEY (Hotel_ID),
-  UNIQUE KEY Hotel_Name (Hotel_Name),
-  UNIQUE KEY Manager_ID (Manager_ID),
   CONSTRAINT DESTINATION_ibfk_1 FOREIGN KEY (Manager_ID) REFERENCES EMPLOYEE (Employee_ID)
   ON UPDATE RESTRICT
   ON DELETE RESTRICT 
@@ -169,7 +167,7 @@ CREATE TABLE EMPLOYEE (
     Hotel_ID varchar(4) NOT NULL,
     Email_ID varchar(100) NOT NULL,
     PRIMARY KEY (Employee_ID),
-    CONSTRAINT EMPLOYEE_ibfk_1 FOREIGN KEY (Hotel_ID) REFERENCES DESTINATION (Hotel_ID)
+    CONSTRAINT EMPLOYEE_ibfk_1 FOREIGN KEY (Hotel_ID) REFERENCES DESTINATION (Hotel_ID) -- cannot delete an entire hotel with employees working in it
     ON UPDATE CASCADE
     ON DELETE RESTRICT
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8;

@@ -592,7 +592,7 @@ def changeStay():
 def updateManager():
     global cur
     row = {}
-    print("Enter the new hotel's details: ")
+    print("Enter the Manager's new details: ")
     row["Hotel_ID"] = input("Hotel ID: ")
     row["Manager_ID"] = input("Manager_ID: ")
     try:
@@ -624,9 +624,9 @@ def updateManager():
 def updateSupervisor():
     global cur
     row = {}
-    print("Enter the new hotel's details: ")
+    print("Enter the Supervisor's new details: ")
     row["Hotel_ID"] = input("Hotel ID: ")
-    row["Sup_ID"] = input("Sup_ID: ")
+    row["Sup_ID"] = input("Supervisor_ID: ")
     try:
         query = "SELECT HOTEL_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=%s" % (
             row["Sup_ID"])
@@ -641,7 +641,7 @@ def updateSupervisor():
     # Supervisor must exist in that hotel
     if x["HOTEL_ID"] == row["Hotel_ID"]:
         try:
-            query = "UPDATE REVREATION SET SUPERVISOR_ID='%s' WHERE Hotel_ID=%s" % (
+            query = "UPDATE RECREATION SET SUPERVISOR_ID='%s' WHERE Hotel_ID=%s" % (
                 row["Sup_ID"], row["Hotel_ID"])
             cur.execute(query)
             con.commit()
@@ -658,15 +658,32 @@ def transferEmployee():
     row = {}
     row["Employee_ID"] = input("Employee ID: ")
     row["Hotel_ID"] = input("Hotel ID: ")
-    
+
     try:
-        query = "UPDATE EMPLOYEE SET Hotel_ID='%s' WHERE Employee_ID='%s'" % (
-            row["Hotel_ID"],row["Employee_ID"])
+        query="SELECT MANAGER_ID FROM DESTINATION WHERE MANAGER_ID=%s" % (row["Employee_ID"])
         cur.execute(query)
-        con.commit()
+        x=cur.fetchone()
+        query="SELECT SUPERVISOR_ID FROM RECREATION WHERE SUPERVISOR_ID=%s" % (row["Employee_ID"])
+        cur.execute(query)
+        y=cur.fetchone()
+
     except Exception as e:
         print(e)
         print("Please try with different data")
+        return
+        
+        
+    if x != None or y!= None:
+        print("Cannot Transfer Employee as he/she is a Manager/Supervisor")
+    else:    
+        try:
+            query = "UPDATE EMPLOYEE SET Hotel_ID='%s' WHERE Employee_ID='%s'" % (
+                row["Hotel_ID"],row["Employee_ID"])
+            cur.execute(query)
+            con.commit()
+        except Exception as e:
+            print(e)
+            print("Please try with different data")
 
 def viewTable(rows):
 
@@ -838,22 +855,22 @@ def deleteOptions():
     elif n == '3':
         x1 = input("Enter Member ID: ")
         x2 = input("Enter Member Package: ")
-        query = "DELETE FROM MEMBER_PACKAGE M WHERE M.MEMBER_ID='%s' AND M.PACKAGE='%s';" % (
+        query = "DELETE FROM MEMBER_PACKAGE WHERE MEMBER_ID='%s' AND PACKAGE='%s';" % (
             x1, x2)
     elif n == '4':
         x1 = input("Enter Member ID: ")
         x2 = input("Enter Member Address: ")
-        query = "DELETE FROM MEMBER_ADDRESS M WHERE M.MEMBER_ID='%s' AND M.ADDRESS='%s';" % (
+        query = "DELETE FROM MEMBER_ADDRESS WHERE MEMBER_ID='%s' AND ADDRESS='%s';" % (
             x1, x2)
     elif n == '5':
         x1 = input("Enter Member ID: ")
         x2 = input("Enter Member Phone: ")
-        query = "DELETE FROM MEMBER_PHONE M WHERE M.MEMBER_ID='%s' AND M.PH_NO='%s';" % (
+        query = "DELETE FROM MEMBER_PHONE WHERE MEMBER_ID='%s' AND PH_NO='%s';" % (
             x1, x2)
     elif n == '6':
         x1 = input("Enter Hotel ID: ")
         x2 = input("Enter Month: ")
-        query = "DELETE FROM FINANCE F WHERE F.HOTEL_ID='%s' AND F.MONTH='%s';" % (
+        query = "DELETE FROM FINANCE WHERE HOTEL_ID='%s' AND MONTH='%s';" % (
             x1, x2)
     elif n == '7':
         x = input("Enter Employee ID: ")
@@ -861,17 +878,17 @@ def deleteOptions():
     elif n == '8':
         x1 = input("Enter Employee ID: ")
         x2 = input("Enter Address: ")
-        query = "DELETE FROM EMPLOYEE_ADDRESS E WHERE E.EMPLOYEE_ID='%s' AND E.ADDRESS='%s';" % (
+        query = "DELETE FROM EMPLOYEE_ADDRESS WHERE EMPLOYEE_ID='%s' AND ADDRESS='%s';" % (
             x1, x2)
     elif n == '9':
         x1 = input("Enter Hotel ID: ")
         x2 = input("Enter Phone: ")
-        query = "DELETE FROM EMPLOYEE_PHONE E WHERE E.HOTEL_ID='%s' AND E.Ph_No='%s';" % (
+        query = "DELETE FROM EMPLOYEE_PHONE WHERE HOTEL_ID='%s' AND Ph_No='%s';" % (
             x1, x2)
     elif n == '10':
         x1 = input("Enter Hotel ID: ")
         x2 = input("Enter Service_Provider: ")
-        query = "DELETE FROM RECREATION R WHERE R.HOTEL_ID='%s' AND R.SERVICE_PROVIDER='%s';" % (
+        query = "DELETE FROM RECREATION WHERE HOTEL_ID='%s' AND SERVICE_PROVIDER='%s';" % (
             x1, x2)
     elif n == '11':
         x= input("Enter Service Provider: ")
