@@ -2,7 +2,8 @@ import subprocess as sp
 import pymysql
 import pymysql.cursors
 from tabulate import tabulate
-from datetime import datetime
+# from datetime import datetime
+import datetime
 
 
 def addEmployee():
@@ -36,7 +37,7 @@ def addEmployee():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
     for i in range(n):
@@ -47,7 +48,7 @@ def addEmployee():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
 
     for i in range(m):
@@ -58,7 +59,7 @@ def addEmployee():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
     return
 
@@ -94,17 +95,17 @@ def addMember():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
     try:
         query = "INSERT INTO MEMBER_PACKAGE(Member_ID, Package) VALUES('%s', '%s')" % (
             row["Member_ID"], row["Package"])
         cur.execute(query)
-        cur.commit()
+        con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
     for i in range(n):
@@ -115,7 +116,7 @@ def addMember():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
 
     for i in range(m):
@@ -126,7 +127,7 @@ def addMember():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
     return
 
@@ -148,7 +149,7 @@ def addMemberGuest():
         cur.execute(query)
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
     x = cur.fetchone()
     con.commit()
@@ -161,7 +162,7 @@ def addMemberGuest():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
         try:
             query = "UPDATE MEMBER_GUESTS M SET COST_OF_STAYING = (CHECK_OUT_DATE-CHECK_IN_DATE)*(SELECT PRICE_DAY FROM HOTEL_I WHERE HOTEL_ID = M.HOTEL_ID AND M.ROOM_NO=ROOM_NUMBER)"
@@ -169,7 +170,7 @@ def addMemberGuest():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
 
         try:
@@ -179,7 +180,7 @@ def addMemberGuest():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
 
     else:
@@ -206,7 +207,7 @@ def addNonMemberGuest():
         cur.execute(query)
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
     x = cur.fetchone()
     # print(x)
@@ -220,7 +221,7 @@ def addNonMemberGuest():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
 
         try:
@@ -229,7 +230,7 @@ def addNonMemberGuest():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
 
         try:
@@ -239,7 +240,7 @@ def addNonMemberGuest():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
 
     else:
@@ -262,7 +263,7 @@ def addPackage():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
     return
 
@@ -284,7 +285,7 @@ def addFinance():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
     try:
@@ -294,7 +295,7 @@ def addFinance():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
     return
@@ -316,7 +317,7 @@ def addServiceProvider():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
     return
 
@@ -338,7 +339,7 @@ def addRoom():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
     return
 
@@ -352,7 +353,7 @@ def addHotel():
     row["Location"] = input("Location: ")
     row["Manager_ID"] = input("Manager_ID: ")
 
-# shift that employee to that hotel
+    # shift that employee to that hotel
     try:
         query = "UPDATE EMPLOYEE SET HOTEL_ID='%s' WHERE EMPLOYEE_ID=%s" % (
             row["Hotel_ID"], row["Manager_ID"])
@@ -360,9 +361,9 @@ def addHotel():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
-        
+
     try:
         query = "INSERT INTO DESTINATION(Hotel_ID,Hotel_Name,Location,Manager_ID) VALUES('%s', '%s', '%s', '%s')" % (
             row["Hotel_ID"], row["Hotel_Name"], row["Location"], row["Manager_ID"])
@@ -370,7 +371,7 @@ def addHotel():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
 
@@ -392,7 +393,7 @@ def addRecreation():
         cur.execute(query)
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
     x = cur.fetchone()
     con.commit()
@@ -406,7 +407,7 @@ def addRecreation():
             con.commit()
         except Exception as e:
             print(e)
-            print("Please try with different data")
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
             return
 
     else:
@@ -421,18 +422,15 @@ def addFacilitiesAvailed():
     query="SELECT HOTEL_ID FROM MEMBER_GUESTS WHERE MEMBER_ID=%s" % (member_id)
     cur.execute(query)
     x=cur.fetchone()
-    print(x)
     if x==None:
-        print("Member currently not staying in any hotel")
+        print("----------------------------------------\nMember currently not staying in any hotel!\n----------------------------------------\n")
         return
     else:
         query="SELECT * FROM RECREATION WHERE SERVICE_PROVIDER='%s' AND HOTEL_ID='%s'" % (provider,x['HOTEL_ID'])
         cur.execute(query)
         x2=cur.fetchone()
-        print(provider,x['HOTEL_ID'])
-        print(x2)
         if x2==None:
-            print("This service is not available in the hotel the member is staying in")
+            print("----------------------------------------\nThis service is not available in the hotel the member is staying in!\n----------------------------------------\n")
             return       
 
     try:
@@ -441,7 +439,7 @@ def addFacilitiesAvailed():
         cur.execute(query)
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
     x = cur.fetchone()
 
@@ -460,7 +458,7 @@ def addFacilitiesAvailed():
 def getFinancialReport():
     global cur
     # query = "MONTH"
-    date = datetime.today().strftime('%Y-%m-%d')
+    date = datetime.datetime.now()
     month = date[5] + date[6]
     if month == "01":
         m = "January"
@@ -492,7 +490,7 @@ def getFinancialReport():
         no_of_rows = cur.execute(query, m)
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
     rows = cur.fetchall()
@@ -511,19 +509,71 @@ def changeStay():
     args = (newday.split("-"))
     pydy = datetime.datetime(int(args[0]), int(args[1]), int(args[2]))
 
-    if datetime.datetime.now() < pydy:
+    if datetime.datetime.now() > pydy:
         print("Can't enter a date that has already passed")
     else:
         try:
-            query = "UPDATE HOTEL_I SET Check_Out_Date='%s' WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
-                newday, row["Hotel_ID"], row["Room_Number"])
+            query="SELECT isMember, isOccupied FROM HOTEL_I WHERE HOTEL_ID=%s AND ROOM_NUMBER=%s" % (
+                    row["Hotel_ID"], row["Room_Number"])
+            cur.execute(query)
+        except Exception as e:
+            print(e)
+            print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
+            return
+        x=cur.fetchone()    
+        con.commit()
+        
+        if x["isOccupied"]==0:
+            print("ROOM IS NOT OCCUPIED\n")
+            
+
+        else:
+            if x["isMember"]==1:
+                query = "UPDATE MEMBER_GUESTS SET Check_Out_Date='%s' WHERE HOTEL_ID='%s' AND ROOM_NO='%s'" % (
+                    newday, row["Hotel_ID"], row["Room_Number"])
+            else:
+                query = "UPDATE NON_MEMBER_GUESTS SET Check_Out_Date='%s' WHERE HOTEL_ID='%s' AND ROOM_NO='%s'" % (
+                    newday, row["Hotel_ID"], row["Room_Number"])
+            
+            try:
+                cur.execute(query)
+                con.commit()
+            except Exception as e:
+                print(e)
+                print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
+                return
+
+def updateManager():
+    global cur
+    row = {}
+    print("Enter the new hotel's details: ")
+    row["Hotel_ID"] = input("Hotel ID: ")
+    row["Manager_ID"] = input("Manager_ID: ")
+    try:
+        query = "SELECT HOTEL_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=%s" % (
+            row["Manager_ID"])
+        cur.execute(query)
+    except Exception as e:
+        print(e)
+        print("Please try with different data")
+        return
+    x = cur.fetchone()
+    con.commit()
+
+    # Supervisor must exist in that hotel
+    if x["HOTEL_ID"] == row["Hotel_ID"]:
+        try:
+            query = "UPDATE DESTINATION SET Manager_ID='%s' WHERE Hotel_ID=%s" % (
+                row["Manager_ID"], row["Hotel_ID"])
             cur.execute(query)
             con.commit()
         except Exception as e:
             print(e)
             print("Please try with different data")
             return
-
+    else:
+        print("Employee does not work in this hotel")
+    return
 
 def viewTable(rows):
 
@@ -614,7 +664,7 @@ def viewOptions():
         no_of_rows = cur.execute(query)
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
     rows = cur.fetchall()
@@ -739,7 +789,7 @@ def deleteOptions():
         con.commit()
     except Exception as e:
         print(e)
-        print("Please try with different data")
+        print("\n\nError: PLEASE TRY AGAIN WITH DIFFERENT DATA!\n")
         return
 
 
@@ -747,6 +797,7 @@ def updateOptions():
     print("Choose an UPDATE option\n\n")
     print("1.  EMPLOYEE SALARY")
     print("2.  CHECK OUT DATE")
+    print("3.  UPDATE MANAGER")
     print("\n\n")
     n = int(input())
 
@@ -757,6 +808,10 @@ def updateOptions():
             salary, id)
     elif n == 2:
         changeStay()
+        return
+    elif n==3 :
+        updateManager()
+        return
 
     cur.execute(query)
     con.commit()
@@ -830,6 +885,7 @@ while(1):
             exitflag = 0
             while(1):
                 # tmp = sp.call('clear', shell=True)
+                refreshDatabase()
                 print("CHOOSE AN OPTION\n")
                 print("1.View Options")
                 print("2.Addition Options")
